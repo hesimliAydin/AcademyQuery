@@ -1,0 +1,185 @@
+CREATE DATABASE Academy
+GO
+USE Academy
+
+GO
+CREATE TABLE Departaments(
+[Id] INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
+[Financy] MONEY DEFAULT(0) NOT NULL,
+CHECK([Financy]!=0),
+[Name] NVARCHAR(100) NOT NULL,
+CHECK([Name]!=''),
+UNIQUE([Name]),
+)
+
+GO
+
+CREATE TABLE Facultiess(
+[Id] INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
+[Dean] NVARCHAR(MAX) NOT NULL,
+CHECK([Dean]!=''),
+[Name] NVARCHAR(100) NOT NULL,
+CHECK([Name]!=''),
+UNIQUE([Name]),
+
+
+)
+
+GO
+
+CREATE TABLE Groupss(
+[Id] INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
+[Name] NVARCHAR(100) NOT NULL,
+CHECK([Name]!=''),
+UNIQUE([Name]),
+[Rating] INT NOT NULL,
+CHECK([Rating]>0  AND [Rating]<5),
+[Year] INT NOT NULL,
+CHECK([Year]>=1 AND [Year]<=5)
+
+
+
+
+)
+
+GO
+
+CREATE TABLE Teacherss(
+[Id] INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
+[EmploymentDate] DATE NOT NULL,
+CHECK([EmploymentDate]>='01-01-1990'),
+[Assistant] BIT DEFAULT(0) NOT NULL,
+[IsProfessor] BIT DEFAULT(0) NOT NULL,
+[Name] NVARCHAR(100) NOT NULL,
+CHECK([Name]!=''),
+UNIQUE([Name]),
+[Position] NVARCHAR (MAX) NOT NULL,
+CHECK([Position]!=''),
+[Premium] MONEY DEFAULT(0) NOT NULL,
+CHECK([Premium]!=0),
+[Salary] MONEY NOT NULL,
+CHECK([Salary]!=0 AND [Salary]>0),
+[Surname] NVARCHAR(MAX) NOT NULL,
+CHECK([Surname]!=''),
+
+
+)
+
+
+INSERT INTO Departaments([Name],[Financy])
+VALUES('Library',28000),
+('Bathroom',15000),
+('Classroom',20000),
+('Garden',3000)
+
+--SELECT* FROM dbo.Departaments
+
+INSERT INTO Facultiess([Name],[Dean])
+VALUES('Sport','Revan Sadiqov'),
+('Programing','Aydin Hesimli'),
+('Designer','Hesen Zamanli'),
+('Cyber Security','Qafil Bagirov')
+
+--SELECT* FROM dbo.Facultiess
+
+INSERT INTO Groupss([Name],[Rating],[Year])
+VALUES('3215',4,2),
+('3314',4,3),
+('3716',4,4),
+('3522',3,1)
+
+--SELECT* FROM dbo.Groupss
+
+INSERT INTO Teacherss([EmploymentDate],[Assistant],[Name],[Surname],[Position],[IsProfessor],[Premium],[Salary])
+VALUES('12-04-2019',0,'Selman','Kerimli','Programing',0,500,1000),
+('12-04-2019',0,'Orxan','Hesenov','Designer',0,350,900),
+('12-04-2017',1,'Hesen','Quliyev','Programing',1,650,1200),
+('12-04-2015',0,'Necef','Necefzade','Cyber Security',0,400,1100),
+('12-04-1995',1,'Taleh','Talehov','Cyber Security',1,750,1800),
+('12-04-2002',0,'Nergiz','Bagirova','Designer',0,100,1100),
+('12-04-2010',1,'Ali','Muradov','Programing',1,400,2000)
+--SELECT * FROM dbo.Teacherss
+
+
+--1
+SELECT *
+FROM Departaments
+ORDER BY [Id] DESC
+
+
+--2
+SELECT [Name] AS [GroupName],[Rating] AS [GroupRating]
+FROM Groupss
+
+
+--3
+SELECT [Surname],[Premium]/[Salary]*100 AS PercentPremium
+FROM Teacherss
+
+
+--4
+SELECT 'The dean of faculty '+[Name]+' is '+[Dean] AS FacultiesInfo
+FROM Facultiess
+
+--5
+SELECT [Name] ,[IsProfessor],[Salary]
+FROM Teacherss
+WHERE [IsProfessor]=1 AND [Salary]>1050
+
+--6
+SELECT [Name],[Financy]
+FROM Departaments
+WHERE [Financy]<10000 OR [Financy]<25000
+
+--7
+SELECT [Name]
+FROM Facultiess
+WHERE [Name]='Programing'
+
+--8
+SELECT [Name],[Position]
+FROM Teacherss
+WHERE [IsProfessor]=0
+
+
+--9
+SELECT [Surname],[Position],[Salary],[Premium]
+FROM Teacherss
+WHERE [Premium]>160 AND [Premium]<550
+
+--10
+SELECT [Surname],[Salary]
+FROM Teacherss
+
+--11
+SELECT [Surname],[Position]
+FROM Teacherss
+WHERE [EmploymentDate]<'01-01-2000'
+
+--12
+SELECT [Name] AS [Library Departament]
+FROM Departaments
+WHERE [Name]='Library'
+
+--13
+SELECT [Name]
+FROM Teacherss
+WHERE [Salary]+[Premium]<1200
+
+--14
+SELECT [Name]
+FROM Groupss
+WHERE [Year]=4 AND [Rating]>2 AND [RATING]<4
+
+--15
+SELECT [Name]
+FROM Teacherss
+WHERE [Salary]>550 AND  [Premium]>250
+
+
+
+
+
+
+
+
